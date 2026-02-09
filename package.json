@@ -1,0 +1,35 @@
+{
+  "name": "merge-forward-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for safe merge-forward operations across release branches",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "merge-forward-server": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "npm run build:tsc --silent && npm run build:assets --silent",
+    "build:tsc": "echo \"[1/2] Compiling TypeScript...\" && tsc && echo \"      TypeScript compiled successfully\\n\"",
+    "build:assets": "node scripts/copy-assets.cjs",
+    "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\" && echo \"🧹 Cleaned dist/ directory\"",
+    "rebuild": "npm run clean --silent && npm run build",
+    "start": "node dist/index.js",
+    "dev": "npm run build && npm start",
+    "watch": "tsc --watch"
+  },
+  "keywords": [
+    "mcp",
+    "merge-forward",
+    "git",
+    "release-management"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "typescript": "^5.7.3"
+  }
+}
