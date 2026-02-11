@@ -143,12 +143,12 @@ export const PLAYBOOK: Playbook = {
       id: "cross-file-csproj-001",
       scenario: "Package dependency replacement (xlsx → exceljs)",
       tags: ["package.json", ".csproj", "build-breaking", "medium-frequency", "critical", "cross-file"],
-      files_affected: ["package.json", "FPS.Dashboard.Web.csproj"],
+      files_affected: ["package.json", "MyApp.Web.csproj"],
       symptoms: [
         "MSBuild fails: 'Could not find file node_modules\\xlsx\\dist\\xlsx.full.min.js'",
         ".csproj references files from packages not in package.json"
       ],
-      detection_command: "msbuild FPS.Dashboard.Web.csproj /p:Configuration=Release",
+      detection_command: "msbuild MyApp.Web.csproj /p:Configuration=Release",
       resolution_reference: "See Instructions Section 2d-ii Step 2 (Check cross-file references)",
       playbook_rules: [7],
       decision_logic: "Keep target's exceljs (Rule #4), update .csproj references to match",
@@ -189,7 +189,7 @@ export const PLAYBOOK: Playbook = {
       id: "incremental-build-001",
       scenario: "Complete workflow: xlsx → exceljs with incremental build validation",
       tags: ["package.json", ".csproj", "build-validation", "workflow-example"],
-      files_affected: ["FPS.Dashboard.Web/package.json", "FPS.Dashboard.Web/FPS.Dashboard.Web.csproj"],
+      files_affected: ["MyApp.Web/package.json", "MyApp.Web/MyApp.Web.csproj"],
       resolution_reference: "See Instructions Section 2d-ii (Cross-file) and Section 2e (Incremental builds)",
       playbook_rules: [5, 7],
       decision_logic: "Update .csproj (Rule #7), build immediately (Rule #5), document results",
@@ -201,12 +201,12 @@ export const PLAYBOOK: Playbook = {
       id: "test-mismatch-001",
       scenario: "Test file merge conflict with removed property reference",
       tags: ["test-files", "compile-error", "medium-frequency", "high-severity"],
-      files_affected: ["Tests/FPS.Dashboard.IntegrationTests/Tests/CycleTime/WipFlushLotRepositoryTests.cs"],
+      files_affected: ["Tests/MyApp.IntegrationTests/Tests/SampleRepositoryTests.cs"],
       symptoms: [
         "CS0117 'WfParameters' does not contain a definition for 'CTDisplay'",
         "Test uses properties that don't exist in target branch"
       ],
-      detection_command: "dotnet build Tests/FPS.Dashboard.IntegrationTests/...",
+      detection_command: "dotnet build Tests/MyApp.IntegrationTests/...",
       resolution_reference: "See Playbook Rule #5 (Verify referenced properties exist in target branch)",
       playbook_rules: [5],
       decision_logic: "Check target branch WfParameters class, remove properties that don't exist",
@@ -223,7 +223,7 @@ export const PLAYBOOK: Playbook = {
       id: "duplicate-imports-001",
       scenario: "Duplicate import statements from merge conflict",
       tags: ["code-files", "warning", "low-frequency", "medium-severity"],
-      files_affected: ["Dashboard.API/Controllers/Equipment/ToolStateHistoryApiController.cs"],
+      files_affected: ["MyApp.API/Controllers/SampleApiController.cs"],
       symptoms: [
         "CS0105 'The using directive appeared previously in this namespace'",
         "Duplicate using statements in file"
@@ -244,7 +244,7 @@ export const PLAYBOOK: Playbook = {
       id: "conflict-markers-001",
       scenario: "Unresolved conflict markers left in staged file",
       tags: ["conflict-resolution", "build-breaking", "low-frequency", "critical"],
-      files_affected: ["FPS.Dashboard/Services/AppSettingsConfig.cs"],
+      files_affected: ["MyApp/Services/AppSettingsConfig.cs"],
       symptoms: [
         "File staged with <<<<<<< HEAD markers still present",
         "Build fails with syntax errors"
@@ -265,7 +265,7 @@ export const PLAYBOOK: Playbook = {
       id: "duplicate-json-keys-001",
       scenario: "Invalid JSON with duplicate keys after merge",
       tags: ["json", "validation", "build-breaking", "high-frequency", "critical"],
-      files_affected: ["FPS.Dashboard.Web/package.json", "FPS.Dashboard.Angular/package.json"],
+      files_affected: ["MyApp.Web/package.json", "MyApp.Angular/package.json"],
       symptoms: [
         "Volta error: 'duplicate field `volta`'",
         "npm install fails with JSON parsing error",
@@ -290,7 +290,7 @@ export const PLAYBOOK: Playbook = {
       tags: ["formatting", "pre-commit", "medium-frequency", "medium-severity"],
       files_affected: [
         "UI.Monorepo/libs/cycle-time/feature-core-flct/src/lib/main-chart/main-chart.component.ts",
-        "FPS.Dashboard.Angular/src/app/areas/general/last-updated/last-updated.component.html"
+        "MyApp.Angular/src/app/areas/general/last-updated/last-updated.component.html"
       ],
       symptoms: [
         "Pre-commit hook fails",
@@ -314,14 +314,14 @@ export const PLAYBOOK: Playbook = {
       scenario: "NuGet package version mismatch causing transitive dependency conflict",
       tags: [".csproj", "nuget", "compile-error", "medium-frequency", "high-severity"],
       files_affected: [
-        "Dashboard.API/Dashboard.API.csproj",
-        "Tests/FPS.Dashboard.UnitTest/FPS.Dashboard.UnitTest.csproj"
+        "MyApp.API/MyApp.API.csproj",
+        "Tests/MyApp.UnitTest/MyApp.UnitTest.csproj"
       ],
       symptoms: [
         "NU1605: Detected package downgrade: System.Text.Json from 8.0.5 to 6.0.10",
         "dotnet restore fails with version conflict error"
       ],
-      detection_command: "dotnet restore Tests/FPS.Dashboard.UnitTest/FPS.Dashboard.UnitTest.csproj",
+      detection_command: "dotnet restore Tests/MyApp.UnitTest/MyApp.UnitTest.csproj",
       resolution_reference: "See Instructions Section 2d-ii Step 5 (.NET/NuGet Package Version Consistency)",
       playbook_rules: [7],
       decision_logic: "Update test project to use same version as main project (8.0.5)",
@@ -338,7 +338,7 @@ export const PLAYBOOK: Playbook = {
       id: "missing-devdeps-001",
       scenario: "Missing critical devDependency after package.json conflict resolution",
       tags: ["package.json", "devdependencies", "build-breaking", "high-frequency", "critical"],
-      files_affected: ["FPS.Dashboard.Angular/package.json"],
+      files_affected: ["MyApp.Angular/package.json"],
       symptoms: [
         "Could not find the '@angular-devkit/build-angular:browser' builder's node package",
         "npm run build fails with missing package error"
@@ -360,7 +360,7 @@ export const PLAYBOOK: Playbook = {
       id: "peer-deps-mismatch-001",
       scenario: "Wrong peer dependency versions causing ERESOLVE conflicts",
       tags: ["package.json", "peer-dependencies", "build-breaking", "high-frequency", "critical"],
-      files_affected: ["FPS.Dashboard.Angular/package.json"],
+      files_affected: ["MyApp.Angular/package.json"],
       symptoms: [
         "ERESOLVE could not resolve - @angular-architects/ngrx-toolkit@21.0.0 requires @angular/common ^21.0.0",
         "npm install fails with 'Conflicting peer dependency' messages"
@@ -382,7 +382,7 @@ export const PLAYBOOK: Playbook = {
       id: "types-node-incompatible-001",
       scenario: "@types/node incompatibility with TypeScript version",
       tags: ["package.json", "typescript", "compile-error", "medium-frequency", "high-severity"],
-      files_affected: ["FPS.Dashboard.Angular/package.json"],
+      files_affected: ["MyApp.Angular/package.json"],
       symptoms: [
         "TS2320 Interface 'Buffer' cannot simultaneously extend types 'Uint8Array<ArrayBuffer>' and 'Uint8Array<ArrayBufferLike>'",
         "Error location: node_modules/@types/node/globals.d.ts:242:11"

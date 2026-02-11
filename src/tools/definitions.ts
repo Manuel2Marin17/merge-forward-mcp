@@ -121,7 +121,7 @@ export const TOOL_DEFINITIONS = [
             properties: {
               name: {
                 type: "string",
-                description: "Project name (e.g., 'Dashboard.API')",
+                description: "Project name (e.g., 'MyApp.API')",
               },
               type: {
                 type: "string",
@@ -132,7 +132,7 @@ export const TOOL_DEFINITIONS = [
               path: {
                 type: "string",
                 description:
-                  "Relative path to project directory or .csproj file (e.g., 'Dashboard.API/' or 'FPS.Dashboard.Web/FPS.Dashboard.Web.csproj')",
+                  "Relative path to project directory or .csproj file (e.g., 'MyApp.API/' or 'MyApp.Web/MyApp.Web.csproj')",
               },
             },
             required: ["name", "type", "path"],

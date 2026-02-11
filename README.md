@@ -57,7 +57,7 @@ npm run build
 Claude Code example:
 
 ```bash
-claude mcp add merge_forward --scope user -- node "C:\Users\INFICON\Desktop\FPS Source\DevUtils\merge-forward-mcp\dist\index.js"
+claude mcp add merge_forward --scope user -- node "/path/to/merge-forward-mcp/dist/index.js"
 ```
 
 **Note:** Replace the path with your actual installation directory.

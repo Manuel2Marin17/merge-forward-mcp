@@ -623,10 +623,10 @@ git add package.json package-lock.json
 git diff HEAD <modified.csproj> | grep "PackageReference"
 
 # 2. Find all projects that reference the modified project
-grep -r "ProjectReference.*Dashboard.API.csproj" **/*.csproj
+grep -r "ProjectReference.*MyApp.API.csproj" **/*.csproj
 
 # 3. Check if dependent projects also have the same PackageReference
-grep "PackageReference Include=\"System.Text.Json\"" Tests/FPS.Dashboard.UnitTest/FPS.Dashboard.UnitTest.csproj
+grep "PackageReference Include=\"System.Text.Json\"" Tests/MyApp.UnitTest/MyApp.UnitTest.csproj
 
 # 4. Update dependent projects to use same or higher version
 # - Open dependent project .csproj
@@ -654,8 +654,8 @@ dotnet restore <dependent.csproj>
 
 ```bash
 # Step 1: Check peer dependencies of main packages
-npm info @inficon/inficon-components peerDependencies
-npm info @inficon/shared peerDependencies
+npm info @myorg/components peerDependencies
+npm info @myorg/shared peerDependencies
 npm info @angular/core peerDependencies
 
 # Step 2: Determine your framework version
@@ -697,9 +697,9 @@ npm view @angular-architects/ngrx-toolkit@19.4.3 peerDependencies
 ```
 
 **Common peer dependency packages:**
-- `@ngrx/signals` - Required by @inficon packages
-- `@angular-architects/ngrx-toolkit` - Required by @inficon state management
-- `camelcase-keys` - Required by @inficon util packages
+- `@ngrx/signals` - Required by @myorg packages
+- `@angular-architects/ngrx-toolkit` - Required by @myorg state management
+- `camelcase-keys` - Required by @myorg util packages
 - `@ngrx/operators` - Required by @ngrx/signals/rxjs-interop
 
 **Red flags indicating wrong peer dep version:**
@@ -763,7 +763,7 @@ Call build_affected_projects() tool → It will build ALL projects and verify th
 Review all conflicted file paths and identify which projects contain those files.
 
 For each project, determine:
-- **name:** Project name (e.g., "Dashboard.API")
+- **name:** Project name (e.g., "MyApp.API")
 - **type:** Project type (npm, dotnet-core, dotnet-framework, or mixed)
 - **path:** Relative path to project directory or .csproj file
 
@@ -771,7 +771,7 @@ For each project, determine:
 - `npm` - Pure Node.js/Angular/React projects with package.json
 - `dotnet-core` - .NET 5+ or .NET Core projects
 - `dotnet-framework` - .NET Framework 4.x projects
-- `mixed` - .NET Framework + npm projects (e.g., FPS.Dashboard.Web)
+- `mixed` - .NET Framework + npm projects (e.g., MyApp.Web)
 
 ---
 
@@ -783,19 +783,19 @@ For each project, determine:
 build_affected_projects({
   projects: [
     {
-      name: "Dashboard.API",
+      name: "MyApp.API",
       type: "dotnet-core",
-      path: "Dashboard.API/Dashboard.API.csproj"
+      path: "MyApp.API/MyApp.API.csproj"
     },
     {
-      name: "FPS.Dashboard.Web",
+      name: "MyApp.Web",
       type: "mixed",
-      path: "FPS.Dashboard.Web/"
+      path: "MyApp.Web/"
     },
     {
-      name: "FinishedLotCT.UI",
+      name: "Frontend.UI",
       type: "npm",
-      path: "CycleTime/FinishedLotCycleTime/FinishedLotCT.UI/"
+      path: "modules/frontend/Frontend.UI/"
     }
     // ... ALL affected projects ...
   ]

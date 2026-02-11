@@ -231,7 +231,7 @@ Resolution: Add "@angular-devkit/build-angular": "19.2.14" (match Angular 19, no
 
 **Detection:**
 ```bash
-dotnet restore Tests/FPS.Dashboard.UnitTest/FPS.Dashboard.UnitTest.csproj
+dotnet restore Tests/MyApp.UnitTest/MyApp.UnitTest.csproj
 # Fails with: NU1605 error
 ```
 
@@ -245,8 +245,8 @@ See [Section 2d-ii Step 5](#step-5-netnuget-package-version-consistency-if-cspro
 
 **Example:**
 ```
-Dashboard.API.csproj: System.Text.Json 8.0.5 (upgraded during merge)
-FPS.Dashboard.UnitTest.csproj: System.Text.Json 6.0.10 (existing)
+MyApp.API.csproj: System.Text.Json 8.0.5 (upgraded during merge)
+MyApp.UnitTest.csproj: System.Text.Json 6.0.10 (existing)
 → Update test project to 8.0.5
 ```
 
@@ -280,7 +280,7 @@ FPS.Dashboard.UnitTest.csproj: System.Text.Json 6.0.10 (existing)
 
 **Detection:**
 ```bash
-dotnet build Tests/FPS.Dashboard.IntegrationTests/...
+dotnet build Tests/MyApp.IntegrationTests/...
 # Fails with: CS0117 error
 ```
 
@@ -333,7 +333,7 @@ var params = new WfParameters { /* only properties that exist in target */ };
 
 **Detection:**
 ```bash
-msbuild FPS.Dashboard.Web/FPS.Dashboard.Web.csproj /p:Configuration=Release
+msbuild MyApp.Web/MyApp.Web.csproj /p:Configuration=Release
 # Fails with: Could not find file
 ```
 
@@ -399,12 +399,12 @@ See [Section 2d-i Step 3](#step-3-check-for-duplicate-importsusing-blocking) (Ch
 **Example:**
 ```csharp
 // BEFORE (duplicate)
-using FPS.Dashboard.Extensions;
+using MyApp.Extensions;
 using System.Linq;
-using FPS.Dashboard.Extensions;  // Duplicate!
+using MyApp.Extensions;  // Duplicate!
 
 // AFTER (cleaned)
-using FPS.Dashboard.Extensions;
+using MyApp.Extensions;
 using System.Linq;
 ```
 
